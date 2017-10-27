@@ -46,6 +46,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <iostream>
 #include <emmintrin.h> // for SSE2
 #include "Processing.NDI.Lib.h" // NDI SDK
 #include "ofxNDIutils.h" // buffer copy utilities

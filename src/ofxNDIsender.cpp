@@ -361,8 +361,15 @@ bool ofxNDIsender::SendImage(unsigned char * pixels, unsigned int width, unsigne
 			if(!p_frame) {
 				p_frame = (unsigned char*)malloc(width*height*4*sizeof(unsigned char));
 				if(!p_frame) {
+					#if defined(_WIN32)
 					MessageBoxA(NULL, "Out of memory in SendImage\n", "NDIsenderL", MB_OK);
 					return false;
+					#else
+					std::cout<<"Out of memory in SendImage NDIsenderL"<<std::endl;
+					return false;
+					#endif
+
+
 				}
 				video_frame.p_data = (unsigned char *)p_frame;
 			}

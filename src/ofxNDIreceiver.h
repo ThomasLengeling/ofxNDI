@@ -45,6 +45,7 @@
 #include <windows.h>
 #include <intrin.h> // for _movsd
 #include <gl\GL.h>
+#pragma comment(lib, "Winmm.lib") // for timegettime
 #endif
 
 #if defined(__APPLE__)
@@ -57,7 +58,6 @@
 #include <emmintrin.h> // for SSE2
 
 #include "Processing.NDI.Lib.h" // NDI SDK
-#pragma comment(lib, "Winmm.lib") // for timegettime
 #include "ofxNDIutils.h" // buffer copy utilities
 
 // Version 2 NDI
@@ -129,7 +129,7 @@ private:
 	std::string m_metadataString; // XML message format string NULL terminated
 
 	// Replacement function for deprecated NDIlib_find_get_sources
-	const NDIlib_source_t* ofxNDIreceiver::FindGetSources(NDIlib_find_instance_t p_instance,
+	const NDIlib_source_t* FindGetSources(NDIlib_find_instance_t p_instance,
 														  uint32_t* p_no_sources,
 														  uint32_t timeout_in_ms);
 

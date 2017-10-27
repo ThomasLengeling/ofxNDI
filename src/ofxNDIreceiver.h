@@ -44,6 +44,7 @@
 #if defined(_WIN32)
 #include <windows.h>
 #include <intrin.h> // for _movsd
+#include <gl\GL.h>
 #endif
 
 #if defined(__APPLE__)
@@ -54,7 +55,7 @@
 #include <string>
 #include <vector>
 #include <emmintrin.h> // for SSE2
-#include <gl\GL.h>
+
 #include "Processing.NDI.Lib.h" // NDI SDK
 #pragma comment(lib, "Winmm.lib") // for timegettime
 #include "ofxNDIutils.h" // buffer copy utilities

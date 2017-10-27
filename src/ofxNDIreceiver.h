@@ -27,7 +27,7 @@
 	16.10.16 - common buffer copy utilities
 	09.02.17 - Changes for NDI SDK Version 2
 				ReceiveImage - remove swap RG flag - now done internally
-				RefreshSenders - uint32_t timeout instead of DWORD
+				RefreshSenders - uint32_t timeout instead of unsigned int
 				Remove timer variables - timeouts done in new SDK functions
 				FindGetSources - replacement for deprecated NDIlib_find_get_sources
 			 - include changes by Harvey Buchan
@@ -85,7 +85,7 @@ public:
 	void CreateFinder();
 	void ReleaseFinder();
 	int  FindSenders();
-	// int  RefreshSenders(DWORD dwTimeout);
+	// int  RefreshSenders(unsigned int dwTimeout);
 	int  RefreshSenders(uint32_t timeout);
 
 	void SetSenderIndex(int index); // Set current sender index in the sender list
@@ -120,8 +120,8 @@ private:
 	bool bSenderSelected; // Sender index has been changed by the user
 	NDIlib_recv_bandwidth_e m_bandWidth; // Bandwidth receive option
 
-	DWORD dwStartTime; // For timing delay
-	DWORD dwElapsedTime;
+	unsigned int dwStartTime; // For timing delay
+	unsigned int dwElapsedTime;
 
 	// Metadata
 	bool m_bMetadata;

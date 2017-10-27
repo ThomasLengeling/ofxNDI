@@ -54,7 +54,7 @@
 // Version 2
 static std::atomic<bool> exit_loop(false);
 static void sigint_handler(int)
-{	
+{
 	exit_loop = true;
 }
 
@@ -96,7 +96,7 @@ ofxNDIreceiver::~ofxNDIreceiver()
 	if(pNDI_recv) NDIlib_recv_destroy(pNDI_recv);
 	if(pNDI_find) NDIlib_find_destroy(pNDI_find);
 	if(bNDIinitialized)	NDIlib_destroy();
-	
+
 }
 
 
@@ -144,7 +144,7 @@ void ofxNDIreceiver::ReleaseFinder()
 //
 // Replacement for deprecated NDIlib_find_get_sources
 //
-const NDIlib_source_t* ofxNDIreceiver::FindGetSources(NDIlib_find_instance_t p_instance, 
+const NDIlib_source_t* ofxNDIreceiver::FindGetSources(NDIlib_find_instance_t p_instance,
 													  uint32_t* p_no_sources,
 													  uint32_t timeout_in_ms)
 {
@@ -178,8 +178,8 @@ int ofxNDIreceiver::FindSenders()
 		// This may be called for every frame so has to be fast.
 		//
 		// Specify a delay so that p_sources is returned only for a network change.
-		// If there was no network change, p_sources is NULL and no_sources = 0 
-		// and can't be used for other functions so the sender names as well as 
+		// If there was no network change, p_sources is NULL and no_sources = 0
+		// and can't be used for other functions so the sender names as well as
 		// the sender count need to be saved locally.
 		// Version 2
 		// p_sources = NDIlib_find_get_sources(pNDI_find, &no_sources, 1);
@@ -210,7 +210,7 @@ int ofxNDIreceiver::FindSenders()
 
 
 // Refresh sender list with the current network snapshot
-// int ofxNDIreceiver::RefreshSenders(DWORD dwTimeout)
+// int ofxNDIreceiver::RefreshSenders(unsigned int dwTimeout)
 int ofxNDIreceiver::RefreshSenders(uint32_t timeout)
 {
 	std::string name;
@@ -310,10 +310,10 @@ int ofxNDIreceiver::GetSenderCount()
 // Return a sender name for the requested index
 bool ofxNDIreceiver::GetSenderName(char *sendername, int userindex)
 {
-	int index = userindex; 
+	int index = userindex;
 
 	// If no index has been specified, use the currently selected index
-	if(userindex < 0) 
+	if(userindex < 0)
 		index = senderIndex;
 
 	if(NDIsenders.size() > 0 && (unsigned int)index < NDIsenders.size() && !NDIsenders.empty()) {
@@ -451,8 +451,8 @@ void ofxNDIreceiver::ReleaseReceiver()
 
 
 
-bool ofxNDIreceiver::ReceiveImage(unsigned char *pixels, 
-								  unsigned int &width, unsigned int &height, 
+bool ofxNDIreceiver::ReceiveImage(unsigned char *pixels,
+								  unsigned int &width, unsigned int &height,
 								  bool bInvert)
 {
 	NDIlib_frame_type_e NDI_frame_type;
@@ -461,7 +461,7 @@ bool ofxNDIreceiver::ReceiveImage(unsigned char *pixels,
 	if(pNDI_recv) {
 
 		// NDI_frame_type = NDIlib_recv_capture(pNDI_recv, &video_frame, NULL, NULL, 0); // 16);
-		NDI_frame_type = NDIlib_recv_capture(pNDI_recv, &video_frame, NULL, &metadata_frame, 0); 
+		NDI_frame_type = NDIlib_recv_capture(pNDI_recv, &video_frame, NULL, &metadata_frame, 0);
 
 		// Is the connection lost or no data received ?
 		if(NDI_frame_type == NDIlib_frame_type_error || NDI_frame_type == NDIlib_frame_type_none) {
@@ -526,7 +526,7 @@ bool ofxNDIreceiver::ReceiveImage(unsigned char *pixels,
 
 				} // end switch received format
 
-				
+
 				// Buffers captured must be freed
 				NDIlib_recv_free_video(pNDI_recv, &video_frame);
 

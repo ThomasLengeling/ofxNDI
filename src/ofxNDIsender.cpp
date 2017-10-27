@@ -41,7 +41,7 @@
 				- Added Metadata
 	17.02.17	- Added MetaData functions
 				- Added GetNDIversion - NDIlib_version
-	22.02.17	- corrected DWORD cast to int in NDI_connection_type
+	22.02.17	- corrected unsigned int cast to int in NDI_connection_type
 
 */
 #include "ofxNDIsender.h"
@@ -49,7 +49,7 @@
 // Version 2
 static std::atomic<bool> exit_loop(false);
 static void sigint_handler(int)
-{	
+{
 	exit_loop = true;
 }
 
@@ -116,7 +116,7 @@ bool ofxNDIsender::CreateSender(const char *sendername, unsigned int width, unsi
 	// Widescreen 16:9
 
 	// 1:1 means use the source aspect ratio
-	if(m_horizontal_aspect == 1 && m_vertical_aspect == 1) 
+	if(m_horizontal_aspect == 1 && m_vertical_aspect == 1)
 		m_picture_aspect_ratio = (float)width/(float)height;
 	else
 		m_picture_aspect_ratio = (float)m_horizontal_aspect/(float)m_vertical_aspect;
@@ -134,7 +134,7 @@ bool ofxNDIsender::CreateSender(const char *sendername, unsigned int width, unsi
 												 "             session=\"default\" "
 												 "             model_name=\"none\" "
 												 "             serial=\"none\"/>";
-		
+
 		const NDIlib_metadata_frame_t NDI_connection_type = {
 			// The length
 			(int)::strlen(p_connection_string),
@@ -145,7 +145,7 @@ bool ofxNDIsender::CreateSender(const char *sendername, unsigned int width, unsi
 		};
 
 		NDIlib_send_add_connection_metadata(pNDI_send, &NDI_connection_type);
-		
+
 		// We are going to create an non-interlaced frame at 60fps
 		if(p_frame) free((void *)p_frame);
 		p_frame = NULL; // invert  buffer
@@ -186,8 +186,8 @@ bool ofxNDIsender::CreateSender(const char *sendername, unsigned int width, unsi
 bool ofxNDIsender::UpdateSender(unsigned int width, unsigned int height)
 {
 	if(pNDI_send && bAsync) {
-		// Because one buffer is in flight we need to make sure that 
-		// there is no chance that we might free it before NDI is done with it. 
+		// Because one buffer is in flight we need to make sure that
+		// there is no chance that we might free it before NDI is done with it.
 		// You can ensure this either by sending another frame, or just by
 		// sending a frame with a NULL pointer.
 		NDIlib_send_send_video_async(pNDI_send, NULL);
@@ -207,20 +207,20 @@ bool ofxNDIsender::UpdateSender(unsigned int width, unsigned int height)
 }
 
 
-void ofxNDIsender::SetFrameRate(DWORD framerate_N, DWORD framerate_D)
+void ofxNDIsender::SetFrameRate(unsigned int framerate_N, unsigned int framerate_D)
 {
 	m_frame_rate_N = framerate_N;
 	m_frame_rate_D = framerate_D;
 	// Aspect ratio is calculated in CreateSender
 }
 
-void ofxNDIsender::GetFrameRate(DWORD &framerate_N, DWORD &framerate_D)
+void ofxNDIsender::GetFrameRate(unsigned int &framerate_N, unsigned int &framerate_D)
 {
 	framerate_N = m_frame_rate_N;
 	framerate_D = m_frame_rate_D;
 }
 
-void ofxNDIsender::SetAspectRatio(DWORD horizontal, DWORD vertical)
+void ofxNDIsender::SetAspectRatio(unsigned int horizontal, unsigned int vertical)
 {
 	m_horizontal_aspect = horizontal;
 	m_vertical_aspect = vertical;
@@ -284,20 +284,20 @@ void ofxNDIsender::SetAudio(bool bAudio)
 	bNDIaudio = bAudio;
 }
 
-void ofxNDIsender::SetAudioSampleRate(DWORD sampleRate)
+void ofxNDIsender::SetAudioSampleRate(unsigned int sampleRate)
 {
 	m_AudioSampleRate = sampleRate;
 	audio_frame.sample_rate = sampleRate;
 }
 
-void ofxNDIsender::SetAudioChannels(DWORD nChannels)
+void ofxNDIsender::SetAudioChannels(unsigned int nChannels)
 {
 	m_AudioChannels = nChannels;
 	audio_frame.no_channels = nChannels;
 	audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(FLOAT);
 }
 
-void ofxNDIsender::SetAudioSamples(DWORD nSamples)
+void ofxNDIsender::SetAudioSamples(unsigned int nSamples)
 {
 	m_AudioSamples = nSamples;
 	audio_frame.no_samples  = nSamples;
@@ -353,7 +353,7 @@ bool ofxNDIsender::SendImage(unsigned char * pixels, unsigned int width, unsigne
 			if(!p_frame) {
 				p_frame = (BYTE*)malloc(width*height*4*sizeof(unsigned char));
 				if(!p_frame) {
-					MessageBoxA(NULL, "Out of memory in SendImage\n", "NDIsenderL", MB_OK); 
+					MessageBoxA(NULL, "Out of memory in SendImage\n", "NDIsenderL", MB_OK);
 					return false;
 				}
 				video_frame.p_data = (BYTE *)p_frame;
@@ -376,7 +376,7 @@ bool ofxNDIsender::SendImage(unsigned char * pixels, unsigned int width, unsigne
 
 		// Metadata
 		if(m_bMetadata && !m_metadataString.empty()) {
-			metadata_frame.length = (DWORD)m_metadataString.size();
+			metadata_frame.length = (unsigned int)m_metadataString.size();
 			metadata_frame.timecode = NDIlib_send_timecode_synthesize;
 			metadata_frame.p_data = (CHAR *)m_metadataString.c_str(); // XML message format
 			NDIlib_send_send_metadata(pNDI_send, &metadata_frame);
@@ -384,8 +384,8 @@ bool ofxNDIsender::SendImage(unsigned char * pixels, unsigned int width, unsigne
 		}
 
 		if(bAsync) {
-			// Submit the frame asynchronously. This means that this call will return immediately and the 
-			// API will "own" the memory location until there is a synchronizing event. A synchronouzing event is 
+			// Submit the frame asynchronously. This means that this call will return immediately and the
+			// API will "own" the memory location until there is a synchronizing event. A synchronouzing event is
 			// one of : NDIlib_send_send_video_async, NDIlib_send_send_video, NDIlib_send_destroy
 			NDIlib_send_send_video_async(pNDI_send, &video_frame);
 		}
@@ -421,4 +421,3 @@ ofxNDIsender::~ofxNDIsender()
 	NDIlib_destroy();
 	bNDIinitialized = false;
 }
-

@@ -66,5 +66,4 @@ common:
 
 osx:
 	ADDON_LIBS     += libs/NDI/Libs/lib/macosx/libndi.dylib
-	ADDON_DLLS_TO_COPY  += libs/NDI/Libs/lib/macosx/
-	ADDON_LDFLAGS = -rpath ../../../../addons/ofxNDI/libs/NDI/Libs/lib/macosx/
+	ADDON_LDFLAGS  += -rpath  $(OF_ROOT)/addons/ofxNDI/libs/NDI/Libs/lib/macosx

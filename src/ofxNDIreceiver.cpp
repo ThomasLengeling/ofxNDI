@@ -74,12 +74,18 @@ ofxNDIreceiver::ofxNDIreceiver()
 	m_bandWidth = NDIlib_recv_bandwidth_highest;
 
 	if(!NDIlib_is_supported_CPU() ) {
+		#if defined(_WIN32)
 		MessageBoxA(NULL, "CPU does not support NDI\nNDILib requires SSE4.1", "NDIreceiver", MB_OK);
+		#endif
+		std::cout<<"CPU does not support NDI\nNDILib requires SSE4.1", "NDIreceiver"<<std::endl;
 	}
 	else {
 		bNDIinitialized = NDIlib_initialize();
 		if(!bNDIinitialized) {
+			#if defined(_WIN32)
 			MessageBoxA(NULL, "Cannot run NDI\nNDILib initialization failed", "NDIreceiver", MB_OK);
+			#endif
+			std::cout<<"CPU does not support NDI\nNDILib requires SSE4.1", "NDIreceiver"<<std::endl;
 		}
 		else {
 			// Version 2

@@ -65,8 +65,8 @@ ofxNDIsender::ofxNDIsender()
 	m_horizontal_aspect = 1; // source aspect ratio by default
 	m_vertical_aspect = 1;
 	m_picture_aspect_ratio = 16.0f/9.0f;
-	m_bProgressive = TRUE; // progressive default
-	m_bClockVideo = TRUE; // clock video default
+	m_bProgressive = true; // progressive default
+	m_bClockVideo = true; // clock video default
 	bAsync = false;
 	bNDIinitialized = false;
 
@@ -79,13 +79,21 @@ ofxNDIsender::ofxNDIsender()
 	m_AudioData = NULL; // Audio buffer
 
 	if(!NDIlib_is_supported_CPU() ) {
+		#if defined(_WIN32)
 		MessageBoxA(NULL, "CPU does not support NDI\nNDILib requires SSE4.1", "NDIsender", MB_OK);
 		bNDIinitialized = false;
+		#else
+		std::cout<<"CPU does not support NDI NDILib requires SSE4.1 NDIsender"<<std::endl;
+		#endif
 	}
 	else {
 		bNDIinitialized = NDIlib_initialize();
 		if(!bNDIinitialized) {
+			#if defined(_WIN32)
 			MessageBoxA(NULL, "Cannot run NDI\nNDILib initialization failed", "NDIsender", MB_OK);
+			#else
+			std::cout<<"Cannot run NDI NDILib initialization failed NDIsender"<<std::endl;
+			#endif
 		}
 		else {
 			// Version 2
@@ -108,7 +116,7 @@ bool ofxNDIsender::CreateSender(const char *sendername, unsigned int width, unsi
 	NDI_send_create_desc.p_ndi_name = (const char *)sendername;
 	NDI_send_create_desc.p_groups = NULL;
 	NDI_send_create_desc.clock_video = m_bClockVideo;
-	NDI_send_create_desc.clock_audio = FALSE;
+	NDI_send_create_desc.clock_audio = false;
 
 	// Calulate aspect ratio
 	// Source (1:1)

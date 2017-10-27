@@ -50,6 +50,7 @@
 
 #if defined(__APPLE__)
 #include <x86intrin.h> // for _movsd
+#include <sys/time.h>
 #endif
 
 
@@ -65,6 +66,7 @@
 #include <csignal>
 #include <cstddef>
 #include <cstdio>
+#include <stdlib.h>
 #include <atomic>
 
 class ofxNDIreceiver {

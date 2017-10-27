@@ -330,7 +330,7 @@ bool ofxNDIreceiver::GetSenderName(char *sendername, int userindex)
 		index = senderIndex;
 
 	if(NDIsenders.size() > 0 && (unsigned int)index < NDIsenders.size() && !NDIsenders.empty()) {
-		strcpy_s(sendername, 256, NDIsenders.at(index).c_str());
+		strcpy(sendername, NDIsenders.at(index).c_str());
 		return true;
 	}
 

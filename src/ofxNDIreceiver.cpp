@@ -84,7 +84,7 @@ ofxNDIreceiver::ofxNDIreceiver()
 		#if defined(_WIN32)
 		MessageBoxA(NULL, "CPU does not support NDI\nNDILib requires SSE4.1", "NDIreceiver", MB_OK);
 		#endif
-		std::cout<<"CPU does not support NDI\nNDILib requires SSE4.1", "NDIreceiver"<<std::endl;
+		std::cout<<"CPU does not support NDI NDILib requires SSE4.1 NDIreceiver"<<std::endl;
 	}
 	else {
 		bNDIinitialized = NDIlib_initialize();
@@ -92,7 +92,7 @@ ofxNDIreceiver::ofxNDIreceiver()
 			#if defined(_WIN32)
 			MessageBoxA(NULL, "Cannot run NDI\nNDILib initialization failed", "NDIreceiver", MB_OK);
 			#endif
-			std::cout<<"CPU does not support NDI\nNDILib requires SSE4.1", "NDIreceiver"<<std::endl;
+			std::cout<<"CPU does not support NDI NDILib requires SSE4.1  NDIreceiver"<<std::endl;
 		}
 		else {
 			// Version 2

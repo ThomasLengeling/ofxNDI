@@ -27,6 +27,9 @@
 	16-06-16	- create file
 
 */
+
+#if defined(_WIN32)
+
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -107,7 +110,7 @@ LRESULT CALLBACK NDIsenderDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 			POINT p;
 			RECT rect;
 			GetWindowRect(hDlg, &rect);
-			w = rect.right - rect.left; 
+			w = rect.right - rect.left;
 			h = rect.bottom - rect.top;
 			if (GetCursorPos(&p)) {
 				//cursor position now in p.x and p.y
@@ -120,9 +123,9 @@ LRESULT CALLBACK NDIsenderDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 			}
 			SetWindowPos(hDlg, HWND_TOPMOST, x, y, w, h, SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
 
-			// Display an initial item in the selection field  
+			// Display an initial item in the selection field
 			SendMessageA(hwndList, CB_SETCURSEL, (WPARAM)listindex, (LPARAM)0);
-			SetFocus(hwndList); 
+			SetFocus(hwndList);
 
 			return FALSE; // leave highlighted
 
@@ -131,16 +134,16 @@ LRESULT CALLBACK NDIsenderDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 			// List box selection
 			if(HIWORD(wParam) == LBN_SELCHANGE)
 				listindex = (int)SendMessage((HWND)lParam, (UINT) LB_GETCURSEL, (WPARAM) 0, (LPARAM) 0);
-				
+
 			switch(LOWORD(wParam)) {
 
 				case IDOK :
 					EndDialog(hDlg, TRUE);
-					return FALSE;                                          
+					return FALSE;
 
 				case IDCANCEL :
 					EndDialog(hDlg, FALSE);
-					return FALSE;                                          
+					return FALSE;
 
 				default:
 					return FALSE;
@@ -156,3 +159,5 @@ LRESULT CALLBACK NDIsenderDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 	return 0;
 
 }
+
+#endif

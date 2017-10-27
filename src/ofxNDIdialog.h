@@ -27,9 +27,14 @@
 	16-06-16	- create file
 
 */
+
+
+
 #pragma once
 #ifndef __ofxNDIdialog__
 #define __ofxNDIdialog__
+
+#if defined(_WIN32)
 
 #include <windows.h>
 #include <string>
@@ -57,5 +62,6 @@ private:
 	bool bSenderSelected;
 
 };
+#endif
 
 #endif

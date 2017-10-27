@@ -54,6 +54,7 @@
 
 
 #include <string>
+#include <iostream>
 #include <vector>
 #include <emmintrin.h> // for SSE2
 

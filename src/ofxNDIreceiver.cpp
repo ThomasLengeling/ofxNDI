@@ -51,6 +51,13 @@
 */
 #include "ofxNDIreceiver.h"
 
+
+unsigned int timeGetTime(){
+	struct timeval now;
+	gettimeofday(&now, NULL);
+	return now.tv_usec/1000;
+}
+
 // Version 2
 static std::atomic<bool> exit_loop(false);
 static void sigint_handler(int)

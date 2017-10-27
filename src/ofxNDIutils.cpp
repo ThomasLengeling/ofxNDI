@@ -89,7 +89,7 @@ namespace ofxNDIutils {
 
 	//
 	// Adapted from : https://searchcode.com/codesearch/view/5070982/
-	// 
+	//
 	// Copyright (c) 2002-2010 The ANGLE Project Authors. All rights reserved.
 	// Use of this source code is governed by a BSD-style license that can be
 	// found in the LICENSE file.
@@ -100,9 +100,9 @@ namespace ofxNDIutils {
 	//
 	void rgba_bgra_sse2(void *source, void *dest, unsigned int width, unsigned int height, bool bInvert)
 	{
-		unsigned __int32 *src = NULL;
-		unsigned __int32 *dst = NULL;
-		unsigned __int32 rgbapix; // 32bit rgba pixel
+		uint32_t *src = NULL;
+		uint32_t *dst = NULL;
+		uint32_t rgbapix; // 32bit rgba pixel
 		unsigned int x = 0;
 		unsigned int y = 0;
 		__m128i brMask = _mm_set1_epi32(0x00ff00ff); // argb
@@ -110,19 +110,19 @@ namespace ofxNDIutils {
 	    for (y = 0; y < height; y++) {
 
   			// Start of buffer
-			src = (unsigned __int32*)source; // unsigned int = 4 bytes
-			dst = (unsigned __int32*)dest;
-	
+			src = (uint32_t*)source; // unsigned int = 4 bytes
+			dst = (uint32_t*)dest;
+
 			// Increment to current line
 			if(bInvert) {
-				src += (unsigned __int32)(width*height); // end of rgba buffer
-				src -= (unsigned __int32)width;          // beginning of the last rgba line
-				src -= (unsigned __int32)y*width;        // current line
+				src += (uint32_t)(width*height); // end of rgba buffer
+				src -= (uint32_t)width;          // beginning of the last rgba line
+				src -= (uint32_t)y*width;        // current line
 			}
 			else {
-				src += (unsigned __int32)y*width;
+				src += (uint32_t)y*width;
 			}
-			dst += (unsigned __int32)y*width; // dest is not inverted
+			dst += (uint32_t)y*width; // dest is not inverted
 
 			// Make output writes aligned
 			for (x = 0; ((reinterpret_cast<intptr_t>(&dst[x]) & 15) != 0) && x < width; x++) {
@@ -156,7 +156,7 @@ namespace ofxNDIutils {
 	} // end rgba_bgra_sse2
 
 
-	void FlipBuffer(const unsigned char *src, 
+	void FlipBuffer(const unsigned char *src,
 					unsigned char *dst,
 					unsigned int width,
 					unsigned int height)
@@ -186,7 +186,7 @@ namespace ofxNDIutils {
 	//
 	// Copy source image to dest, optionally converting bgra<>rgba and/or inverting image
 	//
-	void CopyImage(const unsigned char *source, unsigned char *dest, 
+	void CopyImage(const unsigned char *source, unsigned char *dest,
 				   unsigned int width, unsigned int height, unsigned int stride,
 				   bool bSwapRB, bool bInvert)
 	{
@@ -216,7 +216,7 @@ namespace ofxNDIutils {
 	//        YUV422_to_RGBA
 	//
 	// Y sampled at every pixel
-	// U and V sampled at every second pixel 
+	// U and V sampled at every second pixel
 	// 2 pixels in 1 DWORD
 	//
 	//	R = Y + 1.403V

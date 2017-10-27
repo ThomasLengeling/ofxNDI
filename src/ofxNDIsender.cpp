@@ -393,7 +393,7 @@ bool ofxNDIsender::SendImage(unsigned char * pixels, unsigned int width, unsigne
 		if(m_bMetadata && !m_metadataString.empty()) {
 			metadata_frame.length = (unsigned int)m_metadataString.size();
 			metadata_frame.timecode = NDIlib_send_timecode_synthesize;
-			metadata_frame.p_data = (CHAR *)m_metadataString.c_str(); // XML message format
+			metadata_frame.p_data = (char *)m_metadataString.c_str(); // XML message format
 			NDIlib_send_send_metadata(pNDI_send, &metadata_frame);
 			// printf("Metadata\n%s\n", m_metadataString.c_str());
 		}

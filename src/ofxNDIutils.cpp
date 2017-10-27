@@ -33,7 +33,7 @@
 namespace ofxNDIutils {
 
 #if defined(__APPLE__)
-static inline void *__movsb(void *d, const void *s, size_t n) {
+static inline void *__movsd(void *d, const void *s, size_t n) {
 asm volatile ("rep movsb"
 							: "=D" (d),
 								"=S" (s),

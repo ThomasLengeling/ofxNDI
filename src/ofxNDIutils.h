@@ -1,5 +1,5 @@
 /*
-	NDI utility functions 
+	NDI utility functions
 
 	using the NDI SDK to receive frames from the network
 
@@ -31,14 +31,21 @@
 #ifndef __ofxNDI_
 #define __ofxNDI_
 
+#if defined(_WIN32)
 #include <windows.h>
 #include <intrin.h> // for _movsd
+#endif
+
+#if defined(__APPLE__)
+#include <x86intrin.h> // for _movsd
+#endif
+
 #include <emmintrin.h> // for SSE2
 #include <stdio.h> // for print debugging
 
 namespace ofxNDIutils {
 
-	void CopyImage(const unsigned char *source, unsigned char *dest, 
+	void CopyImage(const unsigned char *source, unsigned char *dest,
 				   unsigned int width, unsigned int height, unsigned int stride,
 				   bool bSwapRB = false, bool bInvert = false);
 	void memcpy_sse2(void* dst, void* src, size_t Size);
@@ -50,4 +57,3 @@ namespace ofxNDIutils {
 
 
 #endif
-

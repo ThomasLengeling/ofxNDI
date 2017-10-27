@@ -35,10 +35,17 @@
 #ifndef __ofxNDIsender__
 #define __ofxNDIsender__
 
+#if defined(_WIN32)
 #include <windows.h>
+#include <intrin.h> // for _movsd
+#endif
+
+#if defined(__APPLE__)
+#include <x86intrin.h> // for _movsd
+#endif
+
 #include <stdio.h>
 #include <string>
-#include <intrin.h> // for _movsd
 #include <emmintrin.h> // for SSE2
 #include "Processing.NDI.Lib.h" // NDI SDK
 #include "ofxNDIutils.h" // buffer copy utilities
@@ -63,7 +70,7 @@ public:
 
 	bool SendImage(unsigned char *image, unsigned int width, unsigned int height,
 		           bool bSwapRB = false, bool bInvert=false);
-	
+
 	void SetFrameRate(DWORD framerate_N = 60000, DWORD framerate_D = 1000);
 	void GetFrameRate(DWORD &framerate_N, DWORD &framerate_D);
 

@@ -173,7 +173,7 @@ bool ofxNDIsender::CreateSender(const char *sendername, unsigned int width, unsi
 			audio_frame.timecode    = m_AudioTimecode;
 			audio_frame.p_data      = m_AudioData;
 			// mono/stereo inter channel stride
-			audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(FLOAT);
+			audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(float);
 		}
 
 		return true;
@@ -294,23 +294,23 @@ void ofxNDIsender::SetAudioChannels(unsigned int nChannels)
 {
 	m_AudioChannels = nChannels;
 	audio_frame.no_channels = nChannels;
-	audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(FLOAT);
+	audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(float);
 }
 
 void ofxNDIsender::SetAudioSamples(unsigned int nSamples)
 {
 	m_AudioSamples = nSamples;
 	audio_frame.no_samples  = nSamples;
-	audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(FLOAT);
+	audio_frame.channel_stride_in_bytes = (m_AudioChannels-1)*m_AudioSamples*sizeof(float);
 }
 
-void ofxNDIsender::SetAudioTimecode(LONGLONG timecode)
+void ofxNDIsender::SetAudioTimecode(int64_t timecode)
 {
 	m_AudioTimecode = timecode;
 	audio_frame.timecode = timecode;
 }
 
-void ofxNDIsender::SetAudioData(FLOAT *data)
+void ofxNDIsender::SetAudioData(float *data)
 {
 	m_AudioData = data;
 	audio_frame.p_data = data;
@@ -351,19 +351,19 @@ bool ofxNDIsender::SendImage(unsigned char * pixels, unsigned int width, unsigne
 		if(bSwapRB || bInvert) {
 			// Local memory buffer is only needed for rgba to bgra or invert
 			if(!p_frame) {
-				p_frame = (BYTE*)malloc(width*height*4*sizeof(unsigned char));
+				p_frame = (unsigned char*)malloc(width*height*4*sizeof(unsigned char));
 				if(!p_frame) {
 					MessageBoxA(NULL, "Out of memory in SendImage\n", "NDIsenderL", MB_OK);
 					return false;
 				}
-				video_frame.p_data = (BYTE *)p_frame;
+				video_frame.p_data = (unsigned char *)p_frame;
 			}
 			ofxNDIutils::CopyImage((const unsigned char *)pixels, (unsigned char *)video_frame.p_data,
 									width, height, (unsigned int)video_frame.line_stride_in_bytes, bSwapRB, bInvert);
 		}
 		else {
 			// No bgra conversion or invert, so use the pointer directly
-			video_frame.p_data = (BYTE *)pixels;
+			video_frame.p_data = (unsigned char *)pixels;
 		}
 
 		// Submit the audio buffer first.

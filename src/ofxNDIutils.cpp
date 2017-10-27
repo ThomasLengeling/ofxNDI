@@ -32,6 +32,20 @@
 
 namespace ofxNDIutils {
 
+#if defined(__APPLE__)
+static inline void *__movsb(void *d, const void *s, size_t n) {
+asm volatile ("rep movsb"
+							: "=D" (d),
+								"=S" (s),
+								"=c" (n)
+							: "0" (d),
+								"1" (s),
+								"2" (n)
+							: "memory");
+return d;
+}
+#endif
+
 	//
 	// Fast memcpy
 	//
@@ -98,6 +112,11 @@ namespace ofxNDIutils {
 	//
 	// All instructions SSE2.
 	//
+	//Only for Windows
+	//
+	//// TODO
+	//not sure how to conver _rotl to mac
+	//
 	void rgba_bgra_sse2(void *source, void *dest, unsigned int width, unsigned int height, bool bInvert)
 	{
 		uint32_t *src = NULL;
@@ -131,7 +150,16 @@ namespace ofxNDIutils {
 				//        & 0x00ff00ff  : r g b . > . b . r
 				// rgbapix & 0xff00ff00 : a r g b > a . g .
 				// result of or			:           a b g r
+
+
+				// TODO
+				//not sure how to conver _rotl to mac
+				//
+				#if defined(_WIN32)
 				dst[x] = (_rotl(rgbapix, 16) & 0x00ff00ff) | (rgbapix & 0xff00ff00);
+				#else
+
+				#endif
 			}
 
 			for (; x + 3 < width; x += 4) {
@@ -149,7 +177,16 @@ namespace ofxNDIutils {
 			// Perform leftover writes
 			for (; x < width; x++) {
 				rgbapix = src[x];
+
+
+				// TODO
+				//not sure how to conver _rotl to mac
+				//
+				#if defined(_WIN32)
 				dst[x] = (_rotl(rgbapix, 16) & 0x00ff00ff) | (rgbapix & 0xff00ff00);
+				#else
+
+				#endif
 			}
 		}
 

@@ -38,6 +38,9 @@
 
 #if defined(__APPLE__)
 #include <x86intrin.h> // for _movsd
+#include <stdlib.h>
+#include <cstdint>
+#include <string.h>
 #endif
 
 #include <emmintrin.h> // for SSE2

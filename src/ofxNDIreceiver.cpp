@@ -122,8 +122,8 @@ void ofxNDIreceiver::CreateFinder()
 	if(!bNDIinitialized) return;
 
 	if(pNDI_find) NDIlib_find_destroy(pNDI_find);
-	// const NDIlib_find_create_t NDI_find_create_desc = { TRUE, NULL };
-	const NDIlib_find_create_t NDI_find_create_desc = { TRUE, NULL, NULL }; // Version 2
+	// const NDIlib_find_create_t NDI_find_create_desc = { true, NULL };
+	const NDIlib_find_create_t NDI_find_create_desc = { true, NULL, NULL }; // Version 2
 	// pNDI_find = NDIlib_find_create(&NDI_find_create_desc);
 	pNDI_find = NDIlib_find_create2(&NDI_find_create_desc);
 	p_sources = NULL;
@@ -413,13 +413,13 @@ bool ofxNDIreceiver::CreateReceiver(NDIlib_recv_color_format_e colorFormat , int
 
 			// We tell it that we prefer BGRA
 			// TODO : does "prefer" mean we might get YUV as well ?
-			// NDIlib_recv_create_t NDI_recv_create_desc = { p_sources[senderIndex], FALSE };
+			// NDIlib_recv_create_t NDI_recv_create_desc = { p_sources[senderIndex], false };
 			// 16-06-16 - SDK change
 			NDIlib_recv_create_t NDI_recv_create_desc = {
 				p_sources[index],
 				colorFormat,
 				m_bandWidth, // Changed by SetLowBandwidth, default NDIlib_recv_bandwidth_highest
-				TRUE };
+				true };
 
 			// Create the receiver
 			// Deprecated version sets bandwidth to highest and allow fields to true.
@@ -429,8 +429,8 @@ bool ofxNDIreceiver::CreateReceiver(NDIlib_recv_color_format_e colorFormat , int
 				return false;
 			}
 
-			// on_program = TRUE, on_preview = FALSE
-			const NDIlib_tally_t tally_state = { TRUE, FALSE };
+			// on_program = true, on_preview = false
+			const NDIlib_tally_t tally_state = { true, false };
 			NDIlib_recv_set_tally(pNDI_recv, &tally_state);
 
 			return true;

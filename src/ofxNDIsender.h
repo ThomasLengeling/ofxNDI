@@ -71,10 +71,10 @@ public:
 	bool SendImage(unsigned char *image, unsigned int width, unsigned int height,
 		           bool bSwapRB = false, bool bInvert=false);
 
-	void SetFrameRate(DWORD framerate_N = 60000, DWORD framerate_D = 1000);
-	void GetFrameRate(DWORD &framerate_N, DWORD &framerate_D);
+	void SetFrameRate(unsigned int framerate_N = 60000, unsigned int framerate_D = 1000);
+	void GetFrameRate(unsigned int &framerate_N, unsigned int &framerate_D);
 
-	void SetAspectRatio(DWORD horizontal = 16, DWORD vertical = 9);
+	void SetAspectRatio(unsigned int horizontal = 16, unsigned int vertical = 9);
 	void GetAspectRatio(float &aspect);
 
 	void SetProgressive(bool bProgressive = true);
@@ -88,9 +88,9 @@ public:
 
 	// Audio
 	void SetAudio(bool bAudio = true);
-	void SetAudioSampleRate(DWORD sampleRate = 48000); // 48000 = 48kHz
-	void SetAudioChannels(DWORD nChannels = 1); // 2 for stereo
-	void SetAudioSamples(DWORD nSamples = 1602); // There can be up to 1602 samples at 29.97 fps
+	void SetAudioSampleRate(unsigned int sampleRate = 48000); // 48000 = 48kHz
+	void SetAudioChannels(unsigned int nChannels = 1); // 2 for stereo
+	void SetAudioSamples(unsigned int nSamples = 1602); // There can be up to 1602 samples at 29.97 fps
 	void SetAudioTimecode(LONGLONG timecode = NDIlib_send_timecode_synthesize); // The timecode of this frame in 100ns intervals or synthesised
 	void SetAudioData(FLOAT *data = NULL); // Audio data
 
@@ -107,10 +107,10 @@ private :
 	NDIlib_send_instance_t pNDI_send;
 	NDIlib_video_frame_t video_frame;
 	BYTE* p_frame;
-	DWORD m_frame_rate_N; // Frame rate numerator
-	DWORD m_frame_rate_D; // Frame rate denominator
-	DWORD m_horizontal_aspect; // Aspect horizontal ratio
-	DWORD m_vertical_aspect; // Aspect vertical ratio
+	unsigned int m_frame_rate_N; // Frame rate numerator
+	unsigned int m_frame_rate_D; // Frame rate denominator
+	unsigned int m_horizontal_aspect; // Aspect horizontal ratio
+	unsigned int m_vertical_aspect; // Aspect vertical ratio
 	float m_picture_aspect_ratio; // Aspect ratio
 	bool m_bProgressive; // Progressive output flag
 	bool m_bClockVideo; // Clock video flag
@@ -120,9 +120,9 @@ private :
 	// Audio
 	bool bNDIaudio;
 	NDIlib_audio_frame_t audio_frame;
-	DWORD m_AudioSampleRate;
-	DWORD m_AudioChannels;
-	DWORD m_AudioSamples;
+	unsigned int m_AudioSampleRate;
+	unsigned int m_AudioChannels;
+	unsigned int m_AudioSamples;
 	LONGLONG m_AudioTimecode;
 	FLOAT *m_AudioData;
 

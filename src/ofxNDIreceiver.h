@@ -41,10 +41,18 @@
 #ifndef __ofxNDIreceiver__
 #define __ofxNDIreceiver__
 
+#if defined(_WIN32)
 #include <windows.h>
+#include <intrin.h> // for _movsd
+#endif
+
+#if defined(__APPLE__)
+#include <x86intrin.h> // for _movsd
+#endif
+
+
 #include <string>
 #include <vector>
-#include <intrin.h> // for _movsd
 #include <emmintrin.h> // for SSE2
 #include <gl\GL.h>
 #include "Processing.NDI.Lib.h" // NDI SDK
@@ -67,11 +75,11 @@ public:
 	bool CreateReceiver(int index = -1);
 	bool CreateReceiver(NDIlib_recv_color_format_e colorFormat, int index = -1);
 	void ReleaseReceiver();
-	// bool ReceiveImage(unsigned char *pixels, 
-	//				  unsigned int &width, unsigned int &height, 
+	// bool ReceiveImage(unsigned char *pixels,
+	//				  unsigned int &width, unsigned int &height,
 	//				  bool bSwapRB = false, bool bInvert = false);
-	bool ReceiveImage(unsigned char *pixels, 
-					  unsigned int &width, unsigned int &height, 
+	bool ReceiveImage(unsigned char *pixels,
+					  unsigned int &width, unsigned int &height,
 					  bool bInvert = false);
 
 	void CreateFinder();
@@ -101,7 +109,7 @@ private:
 	uint32_t no_sources;
 	NDIlib_send_create_t NDI_send_create_desc;
 	NDIlib_find_instance_t pNDI_find;
-	NDIlib_recv_instance_t pNDI_recv; 
+	NDIlib_recv_instance_t pNDI_recv;
 	NDIlib_video_frame_t video_frame;
 
 	unsigned int m_Width, m_Height;
@@ -111,7 +119,7 @@ private:
 	bool bNDIinitialized; // Is NDI initialized properly
 	bool bSenderSelected; // Sender index has been changed by the user
 	NDIlib_recv_bandwidth_e m_bandWidth; // Bandwidth receive option
-	
+
 	DWORD dwStartTime; // For timing delay
 	DWORD dwElapsedTime;
 
@@ -120,7 +128,7 @@ private:
 	std::string m_metadataString; // XML message format string NULL terminated
 
 	// Replacement function for deprecated NDIlib_find_get_sources
-	const NDIlib_source_t* ofxNDIreceiver::FindGetSources(NDIlib_find_instance_t p_instance, 
+	const NDIlib_source_t* ofxNDIreceiver::FindGetSources(NDIlib_find_instance_t p_instance,
 														  uint32_t* p_no_sources,
 														  uint32_t timeout_in_ms);
 
@@ -129,4 +137,3 @@ private:
 
 
 #endif
-
